@@ -1,6 +1,6 @@
 // index.js
 // where your node app starts
-
+Date.prototype.getUnixTime = function() { return this.getTime()/1000|0 };
 // init project
 var express = require('express');
 var app = express();
@@ -24,7 +24,36 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-
+app.get("/api/:date?", function(req, res){
+  console.log(req.params, typeof(req.params.date), req.params.date.length, req.params.date[2], req.params.date[4]);
+  try{
+    if(req.params.date[2] === "-" || req.params.date[4] === "-"){
+      console.log("normal date string")
+      let date = req.params.date;
+      if(new Date(date).toUTCString() === "Invalid Date")
+        throw("Invalid Date");
+      console.log(date, new Date(date).toUTCString());
+      let utcDate = new Date(date).toUTCString();
+      let unixDate = new Date(date).getUnixTime();
+      res.json({unix: unixDate, utc: utcDate});
+    }
+    else if(req.params.date.length === 13){
+      console.log("unix date timestamp")
+      let date = Number(req.params.date);
+      if(new Date(date).toUTCString() === "Invalid Date")
+        throw("Invalid Date");
+      console.log(date, new Date(date).toUTCString());
+      let utcDate = new Date(date).toUTCString();
+      let unixDate = new Date(date).getUnixTime();
+      res.json({unix: unixDate, utc: utcDate});
+    }
+    else throw("Invalid Date");
+  }
+  catch (err){
+    console.log(err);
+    res.json({error: "Invalid Date"})
+  }
+});
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
