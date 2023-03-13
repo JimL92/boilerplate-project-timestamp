@@ -1,6 +1,6 @@
 // index.js
 // where your node app starts
-Date.prototype.getUnixTime = function() { return this.getTime()/1000|0 };
+Date.prototype.getUnixTime = function() { return this.getTime(); };
 // init project
 var express = require('express');
 var app = express();
