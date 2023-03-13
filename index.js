@@ -25,10 +25,10 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/:date?", function(req, res){
-  console.log(req.params, typeof(req.params.date), req.params.date.length, req.params.date[2], req.params.date[4]);
+  //console.log(req.params, typeof(req.params.date), req.params.date.length, req.params.date[2], req.params.date[4]);
   try{
     if(req.params.date[2] === "-" || req.params.date[4] === "-"){
-      console.log("normal date string")
+      //console.log("normal date string")
       let date = req.params.date;
       if(new Date(date).toUTCString() === "Invalid Date")
         throw("Invalid Date");
@@ -42,7 +42,7 @@ app.get("/api/:date?", function(req, res){
       let date = Number(req.params.date);
       if(new Date(date).toUTCString() === "Invalid Date")
         throw("Invalid Date");
-      console.log(date, new Date(date).toUTCString());
+      //console.log(date, new Date(date).toUTCString());
       let utcDate = new Date(date).toUTCString();
       let unixDate = new Date(date).getUnixTime();
       res.json({unix: unixDate, utc: utcDate});
@@ -50,7 +50,7 @@ app.get("/api/:date?", function(req, res){
     else throw("Invalid Date");
   }
   catch (err){
-    console.log(err);
+    //console.log(err);
     res.json({error: "Invalid Date"})
   }
 });
